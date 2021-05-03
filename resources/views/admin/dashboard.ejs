@@ -1,0 +1,172 @@
+<!-- import css dashboard  -->
+
+<link rel="stylesheet" href="/admin/css/dashboard.css">
+
+<div class="row" data-plugin="matchHeight" data-by-row="true">
+
+  <div class="col-xl-3 col-md-6">
+    <!-- Widget Linearea Four -->
+    <div class="card card-shadow" id="widgetLineareaFour">
+      <div class="card-block p-20 pt-10">
+        <div class="clearfix">
+          <div class="grey-800 float-left py-10">
+            <i class="icon md-view-list grey-600 font-size-24 vertical-align-bottom mr-5"></i>
+            Thông báo
+          </div>
+          <span class="float-right grey-700 font-size-30">
+            <%= countPost %>
+          </span>
+        </div>
+        <div class="mb-20 grey-500">
+        </div>
+        <div class="ct-chart h-50"></div>
+      </div>
+    </div>
+    <!-- End Widget Linearea Four -->
+  </div>
+  <div class="col-xl-3 col-md-6">
+    <!-- Widget Linearea Two -->
+    <div class="card card-shadow" id="widgetLineareaTwo">
+      <div class="card-block p-20 pt-10">
+        <div class="clearfix">
+          <div class="grey-800 float-left py-10">
+            <i class="icon md-flash grey-600 font-size-24 vertical-align-bottom mr-5"></i> Lượt bình luận
+          </div>
+          <span class="float-right grey-700 font-size-30">
+            <%= countComment %>
+          </span>
+        </div>
+        <div class="mb-20 grey-500">
+        </div>
+        <div class="ct-chart h-50"></div>
+      </div>
+    </div>
+    <!-- End Widget Linearea Two -->
+  </div>
+
+  <div class="col-xl-3 col-md-6">
+    <!-- Widget Linearea Three -->
+    <div class="card card-shadow" id="widgetLineareaThree">
+      <div class="card-block p-20 pt-10">
+        <div class="clearfix">
+          <div class="grey-800 float-left py-10">
+            <i class="icon md-chart grey-600 font-size-24 vertical-align-bottom mr-5"></i>
+            Tài khoản mới
+          </div>
+          <span class="float-right grey-700 font-size-30">
+            <%= countNewUser %>
+          </span>
+        </div>
+        <div class="mb-20 grey-500">
+        </div>
+        <div class="ct-chart h-50"></div>
+      </div>
+    </div>
+    <!-- End Widget Linearea Three -->
+  </div>
+
+  <div class="col-xl-3 col-md-6">
+    <!-- Widget Linearea One-->
+    <div class="card card-shadow" id="widgetLineareaOne">
+      <div class="card-block p-20 pt-10">
+        <div class="clearfix">
+          <div class="grey-800 float-left py-10">
+            <i class="icon md-account grey-600 font-size-24 vertical-align-bottom mr-5"></i>
+            Tài khoản
+          </div>
+          <span class="float-right grey-700 font-size-30">
+            <%= countUser %>
+          </span>
+        </div>
+        <div class="mb-20 grey-500">
+        </div>
+        <div class="ct-chart h-50"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xxl-5 col-lg-6">
+    <!-- Panel Projects -->
+    <div class="panel" id="projects">
+      <div class="panel-heading">
+        <h3 class="panel-title">Thông báo mới</h3>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <td>Tiêu đề</td>
+              <td>Trạng thái</td>
+              <td>Người đăng</td>
+              <td>Thời gian</td>
+            </tr>
+          </thead>
+          <tbody>
+            <% newPost.forEach(item => { %>
+              <tr>
+                <td><%= item.title.length > 50 ? item.title.substring(50) + "..." : item.title  %> </td>
+                <td><% if(item.status === false ) {%>
+                  <span class="badge badge-pill badge-warning">ẩn</span>
+                  <% } else { %>
+                  <span class="badge badge-pill badge-info"> hiển thị</span>
+                  <% } %>
+                </td>
+                <td><%= item.userId.email %></td>
+                <td><%= moment(item.createdAt).format(' hh:mm A DD/MM/yyyy') %></td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- End Panel Projects -->
+  </div>
+
+  <div class="col-xxl-7 col-lg-6">
+    <!-- Panel Projects Status -->
+    <div class="panel" id="projects-status">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Thông báo nổi bật
+          <span class="badge badge-pill badge-info">5</span>
+        </h3>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <td>Tiêu đề</td>
+              <td>Trạng thái</td>
+              <td>Người đăng</td>
+              <td>Số bình luận</td>
+              <td>Thời gian</td>
+            </tr>
+          </thead>
+          <tbody>
+            <% topPost.forEach(item => { %>
+              <tr>
+                <td><%= item.title.length > 50 ? item.title.substring(50) + "..." : item.title  %> </td>
+                <td><% if(item.status === false ) {%>
+                  <span class="badge badge-pill badge-warning">ẩn</span>
+                  <% } else { %>
+                  <span class="badge badge-pill badge-info"> hiển thị</span>
+                  <% } %>
+                </td>
+                <td><%= item.userId.email %></td>
+                <td><%= item.comments.length %></td>
+                <td><%= moment(item.createdAt).format(' hh:mm A DD/MM/yyyy') %></td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- End Panel Projects Stats -->
+  </div>
+
+</div>
+
+
+<!-- import script dashboard  -->
+
+<script src="/admin/js/dashboard.js"></script>

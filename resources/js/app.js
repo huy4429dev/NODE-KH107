@@ -1,0 +1,1 @@
+const eleLoading = document.querySelector('.box-loading');

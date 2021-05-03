@@ -1,0 +1,171 @@
+<!-- import css category  -->
+<style>
+
+</style>
+
+<div class="example-wrap">
+    <div class="d-flex justify-content-between align-items-center">
+        <ol class="breadcrumb breadcrumb-arrow">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">NOTIFICATION</a></li>
+            <li class="breadcrumb-item active">POST</li>
+        </ol>
+        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addItemModal">
+            Thêm mới
+        </button>
+    </div>
+    <div class="example table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tiêu đề</th>
+                    <th>Trạng thái</th>
+                    <th>Người tạo</th>
+                    <th>Thời gian tạo</th>
+                    <th style="width:100px" class="text-center" colspan="2">Action</th>
+                </tr>
+            </thead>
+            <tbody id="categoryTableBody">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- CREATE -->
+<div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
+    aria-hidden="true">
+    <div class="box-loading load-modal" style="display: none;">
+        <div class="loadingio-spinner-rolling-lwtpylw27h">
+            <div class="ldio-5lswg297lfp">
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addItemModalLabel">THÊM THÔNG BÁO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="create-item">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Tiêu đề</label>
+                        <input type="text" class="form-control" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Danh mục</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name="categoryId">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Mô tả</label>
+                        <textarea class="form-control" name="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Nội dung</label>
+                        <textarea class="editorAdd form-control" name="content"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Trạng thái</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name="status">
+                            <option value="1">hiển thị</option>
+                            <option value="0">ẩn</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button id="add-item" type="button" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- UPDATE -->
+<div class="modal fade" id="updateItemModal" tabindex="-1" role="dialog" aria-labelledby="updateItemModalLabel"
+    aria-hidden="true">
+    <div class="box-loading load-modal" style="display: none;">
+        <div class="loadingio-spinner-rolling-lwtpylw27h">
+            <div class="ldio-5lswg297lfp">
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addItemModalLabel">CẬP NHẬT LOẠI THÔNG BÁO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="create-update-item">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Tiêu đề</label>
+                        <input type="text" class="form-control" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Danh mục</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name="categoryId">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Mô tả</label>
+                        <textarea class="form-control" name="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Nội dung</label>
+                        <textarea class="editorUpdate form-control" name="content"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Trạng thái</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name="status">
+                            <option value="1">hiển thị</option>
+                            <option value="0">ẩn</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button id="update-item" type="button" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE  -->
+
+<div class="modal fade" id="deleteItemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">XÓA LOẠI THÔNG BÁO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn có muốn thông báo mục này ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button id="delete-item" type="button" class="btn btn-primary">Lưu</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/ckeditor5-build-classic/ckeditor.js"></script>
+<script src="/admin/js/post.js"></script>

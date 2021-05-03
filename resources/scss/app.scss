@@ -1,0 +1,35 @@
+
+@import '~noty/src/noty.scss';
+
+
+// Colors
+$primary: #007bff;
+$primary-hover: #b23301;
+$secondary: #F8F8F8;
+$pure: #fff;
+$dark: #232323;
+$gray: #ccc;
+
+// Transition 
+$smooth: all .3s ease-in-out;
+
+
+.noty_type__success {
+    background: #4caf50;
+    padding: 10px;
+    color: white;
+}
+
+.noty_type__error {
+    background: red;
+    padding: 10px;
+    color: white;
+}
+
+.btn-primary {
+    background: $primary;
+    transition: $smooth;
+    &:hover {
+        background: $primary-hover;
+    }
+}

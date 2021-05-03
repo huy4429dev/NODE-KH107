@@ -1,0 +1,16 @@
+{
+    "/public/admin/js/account.js": "/public/admin/js/account.js",
+    "/public/admin/js/category.js": "/public/admin/js/category.js",
+    "/public/admin/js/dashboard.js": "/public/admin/js/dashboard.js",
+    "/public/admin/js/post.js": "/public/admin/js/post.js",
+    "/public/js/app.js": "/public/js/app.js",
+    "/public/css/app.css": "/public/css/app.css",
+    "/public/admin/css/dashboard.css": "/public/admin/css/dashboard.css",
+    "/public/admin/css/category.css": "/public/admin/css/category.css",
+    "/public/admin/css/post.css": "/public/admin/css/post.css",
+    "/public/admin/css/account.css": "/public/admin/css/account.css",
+    "/public/css/home.css": "/public/css/home.css",
+    "/public/css/postDetail.css": "/public/css/postDetail.css",
+    "/public/js/home.js": "/public/js/home.js",
+    "/public/js/postDetail.js": "/public/js/postDetail.js"
+}
