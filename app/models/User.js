@@ -15,6 +15,13 @@ const UserSchema = new Schema({
         type: String,
         min: [2, 'fullname min > 2 !'],
     },
+    googleId: {
+        type: String,
+        unique: [true, 'email unique !'],
+    },
+    googleToken: {
+        type: String,
+    },
     avatar: {
         type: String,
         required: [true, 'avatar required !'],

@@ -11,13 +11,15 @@ function homeController() {
 
         async index(req, res) {
             let { page, size } = req.query;
-            page = page ?? 1;
-            size = size ?? 2;
+            page = parseInt(page) ?? 1;
+            size = parseInt(size) ?? 2;
+            
+            totalPost = await Post.find({status: true}).count();
             Post.find({status: true}, null, { sort: { 'createdAt': -1 } })
-                .skip((page - 1) * page).limit(size)
+                .skip((page - 1) * size).limit(size)
                 .exec((err, posts) => {
                     if (req.xhr) {
-                        return res.json(posts)
+                        return res.json({posts: posts ?? [],total:totalPost})
                     } else {
                         res.render('home', {
                             layout: 'layouts/layoutPage',

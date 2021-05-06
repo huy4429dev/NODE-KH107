@@ -250,15 +250,17 @@
 }
 
 .noty_type__success {
-  background: #4caf50;
+  background: #28a745a6;
   padding: 10px;
   color: white;
+  border: 1px solid #4caf50;
 }
 
 .noty_type__error {
-  background: red;
+  background: #f443366b;
   padding: 10px;
   color: white;
+  border: 1px solid #f44336;
 }
 
 .btn-primary {

@@ -6,24 +6,46 @@ function postController() {
     return {
 
         async index(req, res) {
-            Post
-            .find(null, null, { sort: { 'createdAt': -1 } })
-            // .select('user')
-            .populate('userId','email')
-            .exec((err, posts) => {
-                if (req.xhr) {
-                    return res.json(posts)
-                } else {
-                    res.render('admin/notification/post', {
-                        extractScripts: true,
-                        extractStyles: true
+
+            if (req.user.roleId.name == "admin") {
+                Post
+                    .find(null, null, { sort: { 'createdAt': -1 } })
+                    // .select('user')
+                    .populate('userId', 'email')
+                    .exec((err, posts) => {
+                        if (req.xhr) {
+                            return res.json(posts)
+                        } else {
+                            res.render('admin/notification/post', {
+                                extractScripts: true,
+                                extractStyles: true
+                            })
+                        }
                     })
-                }
-            })
+            }
+            else {
+                Post
+                    .find({userId: req.user._id }, null, { sort: { 'createdAt': -1 } })
+                    // .select('user')
+                    .populate('userId', 'email')
+                    .exec((err, posts) => {
+                        if (req.xhr) {
+                            return res.json(posts)
+                        } else {
+                            res.render('admin/notification/post', {
+                                extractScripts: true,
+                                extractStyles: true
+                            })
+                        }
+                    })
+            }
+
+
         }
         ,
 
         async create(req, res) {
+
             const { title, status, categoryId, description, content } = req.body;
             let document;
             try {
@@ -36,7 +58,6 @@ function postController() {
                     userId: req.user._id
                 });
             } catch (err) {
-                console.log(err);
                 res.status(400).json(err);;
             }
             res.status(201).json(document);

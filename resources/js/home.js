@@ -2,35 +2,70 @@ import axios from 'axios'
 import Noty from 'noty'
 import moment from 'moment'
 import loading from './admin/loading'
+import loadingDot from './admin/loadingDot'
 
 const URL = "http://localhost:3300/";
 const ROLE = localStorage.getItem('role')
 const categoryTableBody = document.querySelector('#categoryTableBody')
 
+let page = 1;
+let size = 2;
+let items = [];
+let total = 1; 
 function getItems() {
-    loading.show();
-    let items = []
-    let markup
-    axios.get(URL, {
+
+    console.log(total,'total')
+    console.log(items,'items')
+    let markup = "";
+    if (items.length >= total) return 
+    if(page == 1){
+        loading.show();
+    }
+    else{
+        loadingDot.show();
+    }
+
+    axios.get(`${URL}?page=${page}&size=${size}`, {
         headers: {
             "X-Requested-With": "XMLHttpRequest"
         }
     })
         .then(res => {
-
+            page++;
+            total = res.data.total;
             setTimeout(() => {
-                items = res.data
+                items = [...items, ...res.data.posts]
                 markup = generateMarkup(items)
                 categoryTableBody.innerHTML = markup;
-                loading.hide();
 
+                loading.hide();
+                loadingDot.hide();
+                
             }, 500);
         })
         .catch(err => {
             console.log(err);
             loading.hide();
         })
+        
 }
+
+const body = document.querySelector('body');
+let loadItem = true;
+
+body.onscroll = () => {
+    
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+        if (loadItem) {
+            getItems();
+            loadItem = false;
+            setTimeout(() => {
+                loadItem = true;
+            }, 500);
+        }
+ 
+    }
+};
 
 function generateMarkup(items) {
     return items.map((item, index) => {

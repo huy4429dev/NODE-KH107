@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -26852,10 +26852,10 @@ function loading() {
 
 /***/ }),
 
-/***/ "./resources/js/postDetail.js":
-/*!************************************!*\
-  !*** ./resources/js/postDetail.js ***!
-  \************************************/
+/***/ "./resources/js/admin/profile.js":
+/*!***************************************!*\
+  !*** ./resources/js/admin/profile.js ***!
+  \***************************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -26867,7 +26867,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(noty__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _admin_loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./admin/loading */ "./resources/js/admin/loading.js");
+/* harmony import */ var _loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./loading */ "./resources/js/admin/loading.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -26884,101 +26886,111 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-var URL = "http://localhost:3300";
-var ROLE = localStorage.getItem('role');
-var categoryTableBody = document.querySelector('#categoryTableBody');
-var postId = categoryTableBody.dataset.postid;
-var pageComment = 1;
-var sizeComment = 5;
-var items = [];
-var totalComment = 0;
-var markupComments = '';
+var URL = "http://localhost:3300/admin/profile"; // filter param profile 
+
+var profileCounts = document.querySelectorAll('#profile-count strong');
+var profileActivities = document.querySelector('#profile-activities');
+var btnUpdateItem = document.querySelector('#update-item');
+var nameUpdate = document.querySelector('.create-update-item input[name=fullname]');
+var emailUpdate = document.querySelector('.create-update-item input[name=email]');
+var oldPasswordUpdate = document.querySelector('.create-update-item input[name=oldPassword]');
+var newPasswordUpdate = document.querySelector('.create-update-item input[name=newPassword]');
+var phoneUpdate = document.querySelector('.create-update-item input[name=phone]');
+var addressUpdate = document.querySelector('.create-update-item input[name=address]');
+var noteUpdate = document.querySelector('.create-update-item textarea[name=note]');
+var genderUpdate = document.querySelector('.create-update-item select[name=gender]'); // get items
+
+var user;
 
 function getItems() {
-  _admin_loading__WEBPACK_IMPORTED_MODULE_3__["default"].show();
-  var urlGetComment = "".concat(URL, "/comment/").concat(postId.trim(), "?pageComment=").concat(pageComment, "&sizeComment=").concat(sizeComment);
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(urlGetComment, {
+  _loading__WEBPACK_IMPORTED_MODULE_3__["default"].show();
+  var markupActivities;
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(URL, {
     headers: {
       "X-Requested-With": "XMLHttpRequest"
     }
   }).then(function (res) {
+    var _res$data = res.data,
+        comments = _res$data.comments,
+        postCount = _res$data.postCount,
+        user = _res$data.user;
     setTimeout(function () {
-      pageComment++;
-      items.push.apply(items, _toConsumableArray(res.data.comments));
-      totalComment = res.data.total;
-      markupComments = generateMarkup(items);
-      var markupMoreBtn = generateLinkSeeMore(totalComment, items.length);
-      categoryTableBody.innerHTML = markupComments + markupMoreBtn;
+      profileCounts[0].innerHTML = postCount;
+      profileCounts[1].innerHTML = comments.length;
+      profileCounts[2].innerHTML = _toConsumableArray(new Set(comments.map(function (item) {
+        return item.postId._id;
+      }))).length; // [ 'A', 'B']
 
-      if (markupMoreBtn != '') {
-        var btnMoreComments = document.querySelector('#btn-get-more-comment');
-        btnMoreComments.addEventListener('click', getItems);
-      }
-
-      _admin_loading__WEBPACK_IMPORTED_MODULE_3__["default"].hide();
+      markupActivities = generateMarkupActivities(comments);
+      profileActivities.innerHTML = markupActivities;
+      showUpdateItem(user);
+      _loading__WEBPACK_IMPORTED_MODULE_3__["default"].hide();
     }, 500);
   })["catch"](function (err) {
-    _admin_loading__WEBPACK_IMPORTED_MODULE_3__["default"].hide();
+    console.log(err);
+    _loading__WEBPACK_IMPORTED_MODULE_3__["default"].hide();
   });
 }
 
-function generateMarkup(items) {
+function generateMarkupActivities(items) {
   return items.map(function (item, index) {
-    return "\n        <li class=\"flex items-center space-x-2 mt-6\">\n            <img style=\"width: 30px; height: 30px;\" src=\"".concat(item.userId.avatar, "\" alt=\"\"\n                class=\"w-10 h-10 rounded-full\">\n            <dl class=\"text-sm font-medium leading-5 whitespace-no-wrap\">\n                <dt class=\"sr-only\">Name</dt>\n                <dd class=\"text-gray-600\">\n                    ").concat(item.userId.fullname, "\n                    <span class=\"text-gray-400\" style=\"font-weight: 300;\">").concat(moment__WEBPACK_IMPORTED_MODULE_2___default()(item.createdAt).locale('vi').fromNow(), "</span>\n                </dd>\n                <p class=\"text-gray-400\" style=\"font-weight: 600;\">").concat(item.content, "</p>\n            </dl>\n        </li>\n        ");
+    return "<li class=\"list-group-item\">\n        <div class=\"media\">\n            <div class=\"media-body\">\n                <h5 class=\"mt-0 mb-5\">\n                    <small><a target=\"_blank\" href=\"/chi-tiet/".concat(item.postId._id, "\" class=\"link cursor-pointer\"> ").concat(item.postId.title, " </a></small>\n                </h5>\n                <small>").concat(moment__WEBPACK_IMPORTED_MODULE_2___default()(item.createdAt).locale('vi').fromNow(), "</small>\n                <div class=\"profile-brief\">\n                ").concat(item.content, "\n                </div>\n            </div>\n        </div>\n    </li>");
   }).join('');
-} // get more comments
-
-
-function generateLinkSeeMore(total, size) {
-  if (total > size) {
-    return "<div class=\"mt-6 text-gray-500 cursor-pointer\"> <a id=\"btn-get-more-comment\"> Xem th\xEAm b\xECnh lu\u1EADn </a> </div>";
-  }
-
-  return "";
 }
 
-getItems(); // create item
+getItems(); // update items
 
-var content = document.querySelector('textarea[name=content]');
-var btnAddItem = document.querySelector('#add-item');
-btnAddItem.addEventListener('click', addItem);
+function showUpdateItem(item) {
+  nameUpdate.value = item.fullname;
+  genderUpdate.value = item.gender ? 1 : 0;
+  emailUpdate.value = item.email;
+  phoneUpdate.value = item.phone;
+  addressUpdate.value = item.address;
+  noteUpdate.value = item.note;
+}
 
-function addItem() {
-  var data = {
-    content: content.value
-  };
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(URL + "/comment/" + postId, data).then(function (res) {
-    content.value = "";
-    items.unshift(res.data);
-    markupComments = generateMarkup(items);
-    var markupMoreBtn = generateLinkSeeMore(totalComment, items.length);
-    categoryTableBody.innerHTML = markupComments + markupMoreBtn;
+function updateItem() {
+  var _data;
 
-    if (markupMoreBtn != '') {
-      var btnMoreComments = document.querySelector('#btn-get-more-comment');
-      btnMoreComments.addEventListener('click', getItems);
-    }
+  var data = (_data = {
+    fullname: nameUpdate.value,
+    email: emailUpdate.value,
+    note: noteUpdate.value,
+    phone: phoneUpdate.value,
+    address: addressUpdate.value
+  }, _defineProperty(_data, "note", noteUpdate.value), _defineProperty(_data, "gender", genderUpdate.value), _defineProperty(_data, "oldPassword", oldPasswordUpdate.value), _defineProperty(_data, "newPassword", newPasswordUpdate.value), _data);
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(URL, data).then(function (res) {
+    new noty__WEBPACK_IMPORTED_MODULE_1___default.a({
+      type: 'success',
+      timeout: 2000,
+      text: 'Cập nhật tài khoản thành công',
+      progressBar: false
+    }).show();
+    getItems();
   })["catch"](function (err) {
-    console.log(err);
+    var _err$response$data$er, _err$response$data;
+
     new noty__WEBPACK_IMPORTED_MODULE_1___default.a({
       type: 'error',
       timeout: 2000,
-      text: 'Error',
+      text: (_err$response$data$er = (_err$response$data = err.response.data) === null || _err$response$data === void 0 ? void 0 : _err$response$data.err) !== null && _err$response$data$er !== void 0 ? _err$response$data$er : 'Error',
       progressBar: false
     }).show();
   });
 }
 
+btnUpdateItem.addEventListener('click', updateItem);
+
 /***/ }),
 
-/***/ 7:
-/*!******************************************!*\
-  !*** multi ./resources/js/postDetail.js ***!
-  \******************************************/
+/***/ 5:
+/*!*********************************************!*\
+  !*** multi ./resources/js/admin/profile.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\js\postDetail.js */"./resources/js/postDetail.js");
+module.exports = __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\js\admin\profile.js */"./resources/js/admin/profile.js");
 
 
 /***/ })

@@ -21,7 +21,7 @@ const auth = require('../app/http/middlewares/auth')
 const admin = require('../app/http/middlewares/admin')
 const department = require('../app/http/middlewares/department')
 
-function initRoutes(app) {
+function initRoutes(app ,passport) {
 
     //INIT ACCOUNT
     app.get('/admin/init', adminController().init)
@@ -34,6 +34,24 @@ function initRoutes(app) {
     app.get('/register', guest, authController().register)
     app.post('/register', authController().postRegister)
     app.get('/logout', authController().logout)
+
+
+    // =====================================
+    // GOOGLE ROUTES =======================
+    // =====================================
+    // send to google to do the authentication
+    // profile gets us their basic information including their name
+    // email gets their emails
+
+    app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+    
+    // the callback after google has authenticated the user
+    app.get('/auth/google/callback',
+        passport.authenticate('google', {
+            successRedirect: '/profile',
+            failureRedirect: '/'
+        }));
+        
 
     // ADMIN PANNEL
     app.get('/admin/dashboard', auth, dashboardController().index)

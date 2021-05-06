@@ -16,6 +16,7 @@ mix.js('resources/js/admin/dashboard.js', 'public/admin/js/dashboard.js').sass('
 mix.js('resources/js/admin/category.js', 'public/admin/js/category.js').sass('resources/scss/admin/category.scss', 'public/admin/css/category.css');
 mix.js('resources/js/admin/post.js', 'public/admin/js/post.js').sass('resources/scss/admin/post.scss', 'public/admin/css/post.css');
 mix.js('resources/js/admin/account.js', 'public/admin/js/account.js').sass('resources/scss/admin/account.scss', 'public/admin/css/account.css');
+mix.js('resources/js/admin/profile.js', 'public/admin/js/profile.js').sass('resources/scss/admin/profile.scss', 'public/admin/css/profile.css');
 mix.js('resources/js/home.js', 'public/js/home.js').sass('resources/scss/home.scss', 'public/css/home.css');
 mix.js('resources/js/postDetail.js', 'public/js/postDetail.js').sass('resources/scss/postDetail.scss', 'public/css/postDetail.css');
 

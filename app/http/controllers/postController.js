@@ -27,12 +27,23 @@ function postController() {
 
         async comment(req, res) {
             const { postId } = req.params;
+            let { pageComment, sizeComment } = req.query;
+            pageComment = parseInt(pageComment) ?? 1;
+            sizeComment = parseInt(sizeComment) ?? 5;
+
+            total = await Comment.find({ postId: postId }).count();
+
             Comment.find({ postId: postId }, null, { sort: { 'createdAt': -1 } })
+                .skip((pageComment - 1) * sizeComment)
+                .limit(sizeComment)
                 // .select('user')
                 .populate('userId')
                 .exec((err, comments) => {
                     if (req.xhr) {
-                        return res.json(comments)
+                        return res.json({
+                            total,
+                            comments
+                        })
                     } else {
                         res.render('admin/notification/post', {
                             extractScripts: true,
@@ -43,14 +54,9 @@ function postController() {
         },
 
         async postComment(req, res) {
-            
+
             const { postId } = req.params;
             const { content } = req.body;
-
-            console.log({
-                postId,
-                content
-            });
             let document;
             try {
                 document = await Comment.create({
@@ -62,7 +68,8 @@ function postController() {
                 console.log(err);
                 res.status(400).json(err);;
             }
-            res.status(201).json(document);
+
+            res.status(201).json({ ...document._doc, userId: { _id: req.user.id, avatar: req.user.avatar, fullname: req.user.fullname } });
         },
         async updateComment(req, res) {
 

@@ -13,8 +13,9 @@ const MongoDbStore = require('connect-mongo')(session)
 const passport = require('passport')
 
 // Database connection
-mongoose.connect(process.env.MONGO_CONNECTION_URL, { useNewUrlParser: true, useCreateIndex:true, useUnifiedTopology: true, useFindAndModify : true });
+mongoose.connect(process.env.MONGO_CONNECTION_URL, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: true });
 const connection = mongoose.connection;
+
 
 connection.once('open', () => {
     console.log('Database connected...');
@@ -62,16 +63,16 @@ app.use((req, res, next) => {
 // set Template engine
 app.use(expressLayout)
 app.set('views', path.join(__dirname, '/resources/views'))
-app.set('layout', './layouts/layoutAdmin','./layouts/layoutPage');
+app.set('layout', './layouts/layoutAdmin', './layouts/layoutPage');
 // app.set('layout', './layout/_layoutAdmin', './layout/_layoutAdminDashboard', './layout/_layoutPage');
 
 app.set('view engine', 'ejs')
 
-require('./routes/web')(app)
+require('./routes/web')(app,passport)
 app.use((req, res) => {
-    res.status(404).render('errors/404', {layout: false})
+    res.status(404).render('errors/404', { layout: false })
 })
 
-const server = app.listen(PORT , () => {
+const server = app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
 })

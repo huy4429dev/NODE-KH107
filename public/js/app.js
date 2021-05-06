@@ -141,6 +141,17 @@ var eleLoading = document.querySelector('.box-loading');
 
 /***/ }),
 
+/***/ "./resources/scss/admin/profile.scss":
+/*!*******************************************!*\
+  !*** ./resources/scss/admin/profile.scss ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/scss/app.scss":
 /*!*********************************!*\
   !*** ./resources/scss/app.scss ***!
@@ -175,9 +186,9 @@ var eleLoading = document.querySelector('.box-loading');
 /***/ }),
 
 /***/ 0:
-/*!*************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/scss/app.scss ./resources/scss/admin/dashboard.scss ./resources/scss/admin/category.scss ./resources/scss/admin/post.scss ./resources/scss/admin/account.scss ./resources/scss/home.scss ./resources/scss/postDetail.scss ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/scss/app.scss ./resources/scss/admin/dashboard.scss ./resources/scss/admin/category.scss ./resources/scss/admin/post.scss ./resources/scss/admin/account.scss ./resources/scss/admin/profile.scss ./resources/scss/home.scss ./resources/scss/postDetail.scss ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -187,6 +198,7 @@ __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\s
 __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\scss\admin\category.scss */"./resources/scss/admin/category.scss");
 __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\scss\admin\post.scss */"./resources/scss/admin/post.scss");
 __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\scss\admin\account.scss */"./resources/scss/admin/account.scss");
+__webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\scss\admin\profile.scss */"./resources/scss/admin/profile.scss");
 __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\scss\home.scss */"./resources/scss/home.scss");
 module.exports = __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\scss\postDetail.scss */"./resources/scss/postDetail.scss");
 

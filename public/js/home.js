@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -26852,6 +26852,32 @@ function loading() {
 
 /***/ }),
 
+/***/ "./resources/js/admin/loadingDot.js":
+/*!******************************************!*\
+  !*** ./resources/js/admin/loadingDot.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var eleLoading = document.querySelector('#box-loading-dot');
+
+function loading() {
+  return {
+    show: function show() {
+      eleLoading.style.display = "block";
+    },
+    hide: function hide() {
+      eleLoading.style.display = "none";
+    }
+  };
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (loading());
+
+/***/ }),
+
 /***/ "./resources/js/home.js":
 /*!******************************!*\
   !*** ./resources/js/home.js ***!
@@ -26868,6 +26894,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _admin_loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./admin/loading */ "./resources/js/admin/loading.js");
+/* harmony import */ var _admin_loadingDot__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./admin/loadingDot */ "./resources/js/admin/loadingDot.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
 
 
 
@@ -26875,27 +26915,57 @@ __webpack_require__.r(__webpack_exports__);
 var URL = "http://localhost:3300/";
 var ROLE = localStorage.getItem('role');
 var categoryTableBody = document.querySelector('#categoryTableBody');
+var page = 1;
+var size = 2;
+var items = [];
+var total = 1;
 
 function getItems() {
-  _admin_loading__WEBPACK_IMPORTED_MODULE_3__["default"].show();
-  var items = [];
-  var markup;
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(URL, {
+  console.log(total, 'total');
+  console.log(items, 'items');
+  var markup = "";
+  if (items.length >= total) return;
+
+  if (page == 1) {
+    _admin_loading__WEBPACK_IMPORTED_MODULE_3__["default"].show();
+  } else {
+    _admin_loadingDot__WEBPACK_IMPORTED_MODULE_4__["default"].show();
+  }
+
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(URL, "?page=").concat(page, "&size=").concat(size), {
     headers: {
       "X-Requested-With": "XMLHttpRequest"
     }
   }).then(function (res) {
+    page++;
+    total = res.data.total;
     setTimeout(function () {
-      items = res.data;
+      items = [].concat(_toConsumableArray(items), _toConsumableArray(res.data.posts));
       markup = generateMarkup(items);
       categoryTableBody.innerHTML = markup;
       _admin_loading__WEBPACK_IMPORTED_MODULE_3__["default"].hide();
+      _admin_loadingDot__WEBPACK_IMPORTED_MODULE_4__["default"].hide();
     }, 500);
   })["catch"](function (err) {
     console.log(err);
     _admin_loading__WEBPACK_IMPORTED_MODULE_3__["default"].hide();
   });
 }
+
+var body = document.querySelector('body');
+var loadItem = true;
+
+body.onscroll = function () {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+    if (loadItem) {
+      getItems();
+      loadItem = false;
+      setTimeout(function () {
+        loadItem = true;
+      }, 500);
+    }
+  }
+};
 
 function generateMarkup(items) {
   return items.map(function (item, index) {
@@ -26907,7 +26977,7 @@ getItems();
 
 /***/ }),
 
-/***/ 5:
+/***/ 6:
 /*!************************************!*\
   !*** multi ./resources/js/home.js ***!
   \************************************/
