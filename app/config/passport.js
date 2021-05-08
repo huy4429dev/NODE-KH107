@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy
 const User = require('../models/user')
+const Role = require('../models/Role')
 const bcrypt = require('bcrypt')
 
 // LOGIN GOOGLE
@@ -50,7 +51,7 @@ function init(passport) {
             process.nextTick(function () {
                 // // tìm trong db xem có user nào đã sử dụng google id này chưa
 
-                User.findOne({ 'google_id': profile.id }, async function (err, user) {
+                User.findOne({ 'googleId': profile.id }, async function (err, user) {
                     if (err) return done(err);
                     if (user) {
                         // if a user is found, log them in
@@ -69,13 +70,12 @@ function init(passport) {
                         newUser.googleId = profile.id;
                         newUser.googleToken = token;
                         newUser.fullname = profile.displayName;
+                        newUser.avatar = profile.photos[0].value;
+                        newUser.password = await bcrypt.hash("123456", 10);
                         newUser.email = profile.emails[0].value; // pull the first email
                         const roleStudent = await Role.findOne({ name: 'student' });
                         newUser.roleId = roleStudent._id;
-
                         // save the user
-                        console.log(newUser, 'new user');
-                        return;
                         newUser.save(function (err) {
                             if (err)
                                 throw err;

@@ -4,7 +4,6 @@ const Post = require('../../../../models/Post')
 function postController() {
 
     return {
-
         async index(req, res) {
 
             if (req.user.roleId.name == "admin") {
@@ -25,7 +24,7 @@ function postController() {
             }
             else {
                 Post
-                    .find({userId: req.user._id }, null, { sort: { 'createdAt': -1 } })
+                    .find({ userId: req.user._id }, null, { sort: { 'createdAt': -1 } })
                     // .select('user')
                     .populate('userId', 'email')
                     .exec((err, posts) => {
@@ -40,9 +39,35 @@ function postController() {
                     })
             }
 
-
         }
         ,
+
+        async search(req, res) {
+
+            let { q } = req.query;
+            console.log(q, 'q')
+            q = '.*' + q.trim() + '.*';
+
+            if (req.user.roleId.name == "admin") {
+                Post
+                    .find({ title: { $regex: q, $options: 'i' } }, null, { sort: { 'createdAt': -1 } })
+                    // .select('user')
+                    .populate('userId', 'email')
+                    .exec((err, posts) => {
+                        return res.json(posts)
+                    })
+
+            }
+            else {
+                Post
+                    .find({ userId: req.user._id, title: { $regex: q, $options: 'i' } }, null, { sort: { 'createdAt': -1 } })
+                    // .select('user')
+                    .populate('userId', 'email')
+                    .exec((err, posts) => {
+                        return res.json(posts)
+                    })
+            }
+        },
 
         async create(req, res) {
 
@@ -57,7 +82,15 @@ function postController() {
                     status,
                     userId: req.user._id
                 });
+
+                // send socket
+
+                document.content = null;
+                const eventEmitter = req.app.get('eventEmitter')
+                eventEmitter.emit('orderUpdated',{document, author: req.user.fullname})
+
             } catch (err) {
+                console.log(err)
                 res.status(400).json(err);;
             }
             res.status(201).json(document);
@@ -87,10 +120,8 @@ function postController() {
         },
 
         async delete(req, res) {
-
             const { id } = req.params;
             let document;
-
             try {
 
                 document = await Post.deleteOne({ _id: id });

@@ -48,7 +48,7 @@ function initRoutes(app ,passport) {
     // the callback after google has authenticated the user
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect: '/profile',
+            successRedirect: '/admin/dashboard',
             failureRedirect: '/'
         }));
         
@@ -76,6 +76,7 @@ function initRoutes(app ,passport) {
 
 
     app.get('/admin/notification/post', auth, postController().index)
+    app.get('/admin/notification/post/search', auth, postController().search)
     app.post('/admin/notification/post', auth, postController().create)
     app.put('/admin/notification/post/:id', auth, postController().update)
     app.delete('/admin/notification/post/:id', auth, postController().delete)
@@ -84,6 +85,7 @@ function initRoutes(app ,passport) {
     // PAGE MEMBER 
 
     app.get('/', homeController().index)
+    app.get('/tim-kiem', homeController().search)
     app.get('/chi-tiet/:id', pagePostController().deletail)
     app.get('/comment/:postId', pagePostController().comment)
     app.post('/comment/:postId', pagePostController().postComment)

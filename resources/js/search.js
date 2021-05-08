@@ -9,7 +9,7 @@ const ROLE = localStorage.getItem('role')
 const categoryTableBody = document.querySelector('#categoryTableBody')
 
 let page = 1;
-let size = 3;
+let size = 2;
 let items = [];
 let total = 1; 
 function getItems() {
@@ -100,29 +100,3 @@ function generateMarkup(items) {
 }
 
 getItems();
-
-
-// Socket client
-let socket = io()
-
-// Join connect to server
-if(true) {
-    socket.emit('join', `id_${123}`)
-}
-
-
-socket.on('orderUpdated', (data) => {
-
-    const {document} = data;
-    console.log(items,'ITEM BEFORE SEND')
-    items.unshift(document)
-    const markup = generateMarkup(items)
-    categoryTableBody.innerHTML = markup;
-
-    new Noty({
-        type: 'success',
-        timeout: 1000,
-        text: `Một thông báo mới được thêm bởi ${data.author}`,
-        progressBar: false,
-    }).show();
-})

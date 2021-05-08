@@ -26961,11 +26961,17 @@ function generateCategoryOption(items) {
 
 getCategory();
 
-function getItems() {
+function getItems(q) {
+  var url = URL;
+
+  if (q != null) {
+    url += "/search?q=" + q;
+  }
+
   _loading__WEBPACK_IMPORTED_MODULE_3__["default"].show();
   var items = [];
   var markup;
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(URL, {
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, {
     headers: {
       "X-Requested-With": "XMLHttpRequest"
     }
@@ -27107,7 +27113,23 @@ function deleteItem() {
   });
 }
 
-btnDeleteItem.addEventListener('click', deleteItem);
+btnDeleteItem.addEventListener('click', deleteItem); // search 
+
+var eleSearch = document.querySelector('#input-search');
+var timer;
+var keySearch = "";
+
+function searchItem() {
+  eleSearch.addEventListener('keyup', function () {
+    keySearch = this.value;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () {
+      getItems(keySearch);
+    }, 1000);
+  });
+}
+
+searchItem();
 
 /***/ }),
 

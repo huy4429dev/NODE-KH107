@@ -12,7 +12,9 @@
     "/public/admin/css/account.css": "/public/admin/css/account.css",
     "/public/admin/css/profile.css": "/public/admin/css/profile.css",
     "/public/css/home.css": "/public/css/home.css",
+    "/public/css/search.css": "/public/css/search.css",
     "/public/css/postDetail.css": "/public/css/postDetail.css",
     "/public/js/home.js": "/public/js/home.js",
-    "/public/js/postDetail.js": "/public/js/postDetail.js"
+    "/public/js/postDetail.js": "/public/js/postDetail.js",
+    "/public/js/search.js": "/public/js/search.js"
 }

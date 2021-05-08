@@ -18,6 +18,7 @@ mix.js('resources/js/admin/post.js', 'public/admin/js/post.js').sass('resources/
 mix.js('resources/js/admin/account.js', 'public/admin/js/account.js').sass('resources/scss/admin/account.scss', 'public/admin/css/account.css');
 mix.js('resources/js/admin/profile.js', 'public/admin/js/profile.js').sass('resources/scss/admin/profile.scss', 'public/admin/css/profile.css');
 mix.js('resources/js/home.js', 'public/js/home.js').sass('resources/scss/home.scss', 'public/css/home.css');
+mix.js('resources/js/search.js', 'public/js/search.js').sass('resources/scss/search.scss', 'public/css/search.css');
 mix.js('resources/js/postDetail.js', 'public/js/postDetail.js').sass('resources/scss/postDetail.scss', 'public/css/postDetail.css');
 
 // Full API

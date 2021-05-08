@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -26852,10 +26852,36 @@ function loading() {
 
 /***/ }),
 
-/***/ "./resources/js/postDetail.js":
-/*!************************************!*\
-  !*** ./resources/js/postDetail.js ***!
-  \************************************/
+/***/ "./resources/js/admin/loadingDot.js":
+/*!******************************************!*\
+  !*** ./resources/js/admin/loadingDot.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var eleLoading = document.querySelector('#box-loading-dot');
+
+function loading() {
+  return {
+    show: function show() {
+      eleLoading.style.display = "block";
+    },
+    hide: function hide() {
+      eleLoading.style.display = "none";
+    }
+  };
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (loading());
+
+/***/ }),
+
+/***/ "./resources/js/search.js":
+/*!********************************!*\
+  !*** ./resources/js/search.js ***!
+  \********************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -26868,6 +26894,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _admin_loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./admin/loading */ "./resources/js/admin/loading.js");
+/* harmony import */ var _admin_loadingDot__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./admin/loadingDot */ "./resources/js/admin/loadingDot.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -26884,101 +26911,78 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-var URL = "http://localhost:3300";
+
+var URL = "http://localhost:3300/";
 var ROLE = localStorage.getItem('role');
 var categoryTableBody = document.querySelector('#categoryTableBody');
-var postId = categoryTableBody.dataset.postid;
-var pageComment = 1;
-var sizeComment = 5;
+var page = 1;
+var size = 2;
 var items = [];
-var totalComment = 0;
-var markupComments = '';
+var total = 1;
 
 function getItems() {
-  _admin_loading__WEBPACK_IMPORTED_MODULE_3__["default"].show();
-  var urlGetComment = "".concat(URL, "/comment/").concat(postId.trim(), "?pageComment=").concat(pageComment, "&sizeComment=").concat(sizeComment);
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(urlGetComment, {
+  var markup = "";
+  if (items.length >= total) return;
+
+  if (page == 1) {
+    _admin_loading__WEBPACK_IMPORTED_MODULE_3__["default"].show();
+  } else {
+    _admin_loadingDot__WEBPACK_IMPORTED_MODULE_4__["default"].show();
+  }
+
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(URL, "?page=").concat(page, "&size=").concat(size), {
     headers: {
       "X-Requested-With": "XMLHttpRequest"
     }
   }).then(function (res) {
+    page++;
+    total = res.data.total;
     setTimeout(function () {
-      pageComment++;
-      items.push.apply(items, _toConsumableArray(res.data.comments));
-      totalComment = res.data.total;
-      markupComments = generateMarkup(items);
-      var markupMoreBtn = generateLinkSeeMore(totalComment, items.length);
-      categoryTableBody.innerHTML = markupComments + markupMoreBtn;
-
-      if (markupMoreBtn != '') {
-        var btnMoreComments = document.querySelector('#btn-get-more-comment');
-        btnMoreComments.addEventListener('click', getItems);
-      }
-
+      items = [].concat(_toConsumableArray(items), _toConsumableArray(res.data.posts));
+      markup = generateMarkup(items);
+      categoryTableBody.innerHTML = markup;
       _admin_loading__WEBPACK_IMPORTED_MODULE_3__["default"].hide();
+      _admin_loadingDot__WEBPACK_IMPORTED_MODULE_4__["default"].hide();
     }, 500);
   })["catch"](function (err) {
+    console.log(err);
     _admin_loading__WEBPACK_IMPORTED_MODULE_3__["default"].hide();
   });
 }
 
+var body = document.querySelector('body');
+var loadItem = true;
+
+body.onscroll = function () {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+    if (loadItem) {
+      getItems();
+      loadItem = false;
+      setTimeout(function () {
+        loadItem = true;
+      }, 500);
+    }
+  }
+};
+
 function generateMarkup(items) {
   return items.map(function (item, index) {
-    return "\n        <li class=\"flex items-center space-x-2 mt-6\">\n            <img style=\"width: 30px; height: 30px;\" src=\"".concat(item.userId.avatar, "\" alt=\"\"\n                class=\"w-10 h-10 rounded-full\">\n            <dl class=\"text-sm font-medium leading-5 whitespace-no-wrap\">\n                <dt class=\"sr-only\">Name</dt>\n                <dd class=\"text-gray-600\">\n                    ").concat(item.userId.fullname, "\n                    <span class=\"text-gray-400\" style=\"font-weight: 300;\">").concat(moment__WEBPACK_IMPORTED_MODULE_2___default()(item.createdAt).locale('vi').fromNow(), "</span>\n                </dd>\n                <p class=\"text-gray-400\" style=\"font-weight: 600;\">").concat(item.content, "</p>\n            </dl>\n        </li>\n        ");
+    return "\n        <li class=\"py-12\">\n        <article class=\"space-y-2 xl:grid xl:grid-cols-4 xl:space-y-0 xl:items-baseline\">\n            <dl>\n                <dt class=\"sr-only\">Published on</dt>\n                <dd class=\"text-base leading-6 font-medium text-gray-500\">\n                    <time\n                        datetime=\"".concat(moment__WEBPACK_IMPORTED_MODULE_2___default()(item.createdAt), "\"> ").concat(moment__WEBPACK_IMPORTED_MODULE_2___default()(item.createdAt).format(' hh:mm A DD/MM/yyyy'), "\n                    </time></dd>\n            </dl>\n            <div class=\"space-y-5 xl:col-span-3\">\n                <div class=\"space-y-6\">\n                    <h2 class=\"text-2xl leading-8 font-bold tracking-tight\"><a class=\"text-gray-900\"\n                            href=\"/chi-tiet/").concat(item._id, "\">\n                                ").concat(item.title, "                            \n                            </a></h2>\n                    <div class=\"prose max-w-none text-gray-500\">\n                        ").concat(item.description, "\n                    </div>\n                </div>\n                <div class=\"text-base leading-6 font-medium\"><a\n                        class=\"text-teal-500 hover:text-teal-600\"\n                        style=\"color: #0694a2\"\n                        aria-label=\"Read &quot;Tailwind UI: Now with React + Vue support&quot;\"\n                        href=\"/chi-tiet/").concat(item._id, "\">Chi ti\u1EBFt \u2192</a></div>\n            </div>\n        </article>\n    </li>\n        ");
   }).join('');
-} // get more comments
-
-
-function generateLinkSeeMore(total, size) {
-  if (total > size) {
-    return "<div class=\"mt-6 text-gray-500 cursor-pointer\"> <a id=\"btn-get-more-comment\"> Xem th\xEAm b\xECnh lu\u1EADn </a> </div>";
-  }
-
-  return "";
 }
 
-getItems(); // create item
-
-var content = document.querySelector('textarea[name=content]');
-var btnAddItem = document.querySelector('#add-item');
-btnAddItem.addEventListener('click', addItem);
-
-function addItem() {
-  var data = {
-    content: content.value
-  };
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(URL + "/comment/" + postId, data).then(function (res) {
-    content.value = "";
-    items.unshift(res.data);
-    markupComments = generateMarkup(items);
-    var markupMoreBtn = generateLinkSeeMore(totalComment, items.length);
-    categoryTableBody.innerHTML = markupComments + markupMoreBtn;
-
-    if (markupMoreBtn != '') {
-      var btnMoreComments = document.querySelector('#btn-get-more-comment');
-      btnMoreComments.addEventListener('click', getItems);
-    }
-  })["catch"](function (err) {
-    console.log(err);
-    new noty__WEBPACK_IMPORTED_MODULE_1___default.a({
-      type: 'error',
-      timeout: 2000,
-      text: 'Error',
-      progressBar: false
-    }).show();
-  });
-}
+getItems();
 
 /***/ }),
 
-/***/ 8:
-/*!******************************************!*\
-  !*** multi ./resources/js/postDetail.js ***!
-  \******************************************/
+/***/ 7:
+/*!**************************************!*\
+  !*** multi ./resources/js/search.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\js\postDetail.js */"./resources/js/postDetail.js");
+module.exports = __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\js\search.js */"./resources/js/search.js");
 
 
 /***/ })

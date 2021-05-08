@@ -26916,13 +26916,11 @@ var URL = "http://localhost:3300/";
 var ROLE = localStorage.getItem('role');
 var categoryTableBody = document.querySelector('#categoryTableBody');
 var page = 1;
-var size = 2;
+var size = 3;
 var items = [];
 var total = 1;
 
 function getItems() {
-  console.log(total, 'total');
-  console.log(items, 'items');
   var markup = "";
   if (items.length >= total) return;
 
@@ -26973,7 +26971,27 @@ function generateMarkup(items) {
   }).join('');
 }
 
-getItems();
+getItems(); // Socket client
+
+var socket = io(); // Join connect to server
+
+if (true) {
+  socket.emit('join', "id_".concat(123));
+}
+
+socket.on('orderUpdated', function (data) {
+  var document = data.document;
+  console.log(items, 'ITEM BEFORE SEND');
+  items.unshift(document);
+  var markup = generateMarkup(items);
+  categoryTableBody.innerHTML = markup;
+  new noty__WEBPACK_IMPORTED_MODULE_1___default.a({
+    type: 'success',
+    timeout: 1000,
+    text: "M\u1ED9t th\xF4ng b\xE1o m\u1EDBi \u0111\u01B0\u1EE3c th\xEAm b\u1EDFi ".concat(data.author),
+    progressBar: false
+  }).show();
+});
 
 /***/ }),
 

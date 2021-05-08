@@ -1,6 +1,7 @@
 require('dotenv').config()
 require('dotenv').config()
 const express = require('express')
+const Emiter = require('events')
 const app = express()
 const ejs = require('ejs')
 const path = require('path')
@@ -68,11 +69,42 @@ app.set('layout', './layouts/layoutAdmin', './layouts/layoutPage');
 
 app.set('view engine', 'ejs')
 
-require('./routes/web')(app,passport)
+require('./routes/web')(app, passport)
 app.use((req, res) => {
     res.status(404).render('errors/404', { layout: false })
 })
 
 const server = app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
+})
+
+
+
+// Socket
+
+const eventEmitter = new Emiter();
+
+app.set('eventEmitter', eventEmitter)
+
+const io = require('socket.io')(server)
+
+io.on('connection', (socket) => {
+
+    console.log("connection socket")
+    // Join
+
+    socket.on('join', id => {
+        console.log(id)
+        socket.join(id)
+    })
+})
+
+
+// send message to client
+
+eventEmitter.on('orderUpdated', data => {
+
+    console.log(data,'server send client')
+    io.to(`id_${123}`).emit('orderUpdated', data);
+    
 })

@@ -96,11 +96,16 @@ function generateCategoryOption(items) {
 
 getCategory();
 
-function getItems() {
+function getItems(q) {
+    let url = URL;
+    if(q != null){
+        url += "/search?q=" + q 
+    }
+     
     loading.show();
     let items = []
     let markup
-    axios.get(URL, {
+    axios.get(url, {
         headers: {
             "X-Requested-With": "XMLHttpRequest"
         }
@@ -295,3 +300,24 @@ function deleteItem() {
 }
 
 btnDeleteItem.addEventListener('click', deleteItem)
+
+
+// search 
+
+const eleSearch = document.querySelector('#input-search')
+
+let timer;
+let keySearch = "";
+
+function searchItem(){
+    eleSearch.addEventListener('keyup',function() {
+
+        keySearch = this.value;
+        if(timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+            getItems(keySearch);
+        }, 1000);
+    })
+}
+
+searchItem();
