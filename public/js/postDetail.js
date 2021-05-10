@@ -26978,7 +26978,7 @@ function addItem() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\js\postDetail.js */"./resources/js/postDetail.js");
+module.exports = __webpack_require__(/*! D:\NODE-KH107\resources\js\postDetail.js */"./resources/js/postDetail.js");
 
 
 /***/ })

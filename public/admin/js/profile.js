@@ -26990,7 +26990,7 @@ btnUpdateItem.addEventListener('click', updateItem);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\js\admin\profile.js */"./resources/js/admin/profile.js");
+module.exports = __webpack_require__(/*! D:\NODE-KH107\resources\js\admin\profile.js */"./resources/js/admin/profile.js");
 
 
 /***/ })

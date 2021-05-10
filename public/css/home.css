@@ -1,0 +1,61 @@
+.title-blog-text:hover {
+  color: #ac7c16 !important;
+  transition: 0.3s;
+}
+
+.title-blog-text {
+  font-size: 24px;
+  transition: 0.3s;
+  color: rgba(32, 88, 27, 0.808);
+}
+
+.title-blog-text:hover {
+  color: #ac7c16 !important;
+}
+
+@media screen and (max-width: 991px) {
+  .title-blog-text {
+    font-size: 25px;
+  }
+
+  .bg-search img {
+    height: 250px;
+  }
+
+  .bg-search h1 {
+    font-size: 30px;
+  }
+
+  .text-desc {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .title-blog-text {
+    font-size: 20px;
+  }
+
+  .bg-search img {
+    height: 180px;
+  }
+
+  .bg-search h1 {
+    font-size: 25px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .title-blog-text {
+    font-size: 18px;
+  }
+
+  .bg-search img {
+    height: 150px;
+  }
+
+  .bg-search h1 {
+    font-size: 18px;
+  }
+}
+

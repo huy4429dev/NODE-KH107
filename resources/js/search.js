@@ -79,11 +79,11 @@ function generateMarkup(items) {
             </dl>
             <div class="space-y-5 xl:col-span-3">
                 <div class="space-y-6">
-                    <h2 class="text-2xl leading-8 font-bold tracking-tight"><a class="text-gray-900"
+                    <h2 class="text-2xl leading-8 font-bold tracking-tight"><a class="text-gray-900 title-blog-text"
                             href="/chi-tiet/${item._id}">
                                 ${item.title}                            
                             </a></h2>
-                    <div class="prose max-w-none text-gray-500">
+                    <div class="prose max-w-none text-desc text-gray-500">
                         ${item.description}
                     </div>
                 </div>

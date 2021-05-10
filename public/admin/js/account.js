@@ -27067,7 +27067,7 @@ function loading() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\js\admin\account.js */"./resources/js/admin/account.js");
+module.exports = __webpack_require__(/*! D:\NODE-KH107\resources\js\admin\account.js */"./resources/js/admin/account.js");
 
 
 /***/ })

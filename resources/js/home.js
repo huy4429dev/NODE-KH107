@@ -74,13 +74,13 @@ function generateMarkup(items) {
                 <dt class="sr-only">Published on</dt>
                 <dd class="text-base leading-6 font-medium text-gray-500">
                     <time
-                        datetime="${moment(item.createdAt)}"> ${moment(item.createdAt).format(' hh:mm A DD/MM/yyyy')}
+                        datetime="${moment(item.createdAt)}">${moment(item.createdAt).format(' hh:mm A DD/MM/yyyy')}
                     </time></dd>
             </dl>
             <div class="space-y-5 xl:col-span-3">
                 <div class="space-y-6">
-                    <h2 class="text-2xl leading-8 font-bold tracking-tight"><a class="text-gray-900"
-                            href="/chi-tiet/${item._id}">
+                    <h2 class=" text-2xl leading-8 font-bold tracking-tight"><a class="text-gray-900 title-blog-text"
+                            href="/chi-tiet/${item._id}" >
                                 ${item.title}                            
                             </a></h2>
                     <div class="prose max-w-none text-gray-500">

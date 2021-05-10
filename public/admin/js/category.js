@@ -27029,7 +27029,7 @@ function loading() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\tutorial\backend\nodejs\107-NODEJS-STDMNG\resources\js\admin\category.js */"./resources/js/admin/category.js");
+module.exports = __webpack_require__(/*! D:\NODE-KH107\resources\js\admin\category.js */"./resources/js/admin/category.js");
 
 
 /***/ })
